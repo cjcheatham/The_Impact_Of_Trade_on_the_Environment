@@ -1,0 +1,279 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\cjche\OneDrive\Capstone Project\results\cjcheatham_log1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 1 May 2023, 12:02:40
+{txt}
+{com}. import excel "C:\Users\cjche\OneDrive\Capstone Project\data\working data set\cjcheatham_working_data.xlsx", sheet("Data") firstrow
+{res}{text}(26 vars, 990 obs)
+
+{com}. 
+. gen n2o_per_cap = n2o/pop
+{txt}
+{com}. gen so2_per_cap = so2/pop
+{txt}
+{com}. 
+. summarize gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 1}gdp_per_cap {c |}{res}        990    24390.25    20616.13   1050.725   116486.5
+{txt}gdp_per_ca~q {c |}{res}        990    1.02e+09    1.58e+09    1104023   1.36e+10
+{txt}{space 6}nx_gdp {c |}{res}        990    .3779419    .3045001   .0380951   2.085903
+{txt}lndarea_pe~p {c |}{res}        990     .040231    .0810368   .0001234   .5675245
+{txt}
+{com}. correlate gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+{txt}(obs=990)
+
+             {c |} gdp_pe~p gdp_pe~q   nx_gdp lndare~p   polity    ocean
+{hline 13}{c +}{hline 54}
+ gdp_per_cap {c |}{res}   1.0000
+{txt}gdp_per_ca~q {c |}{res}   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}   0.6769   0.6451   1.0000
+{txt}lndarea_pe~p {c |}{res}  -0.0103  -0.0433  -0.0277   1.0000
+      {txt}polity {c |}{res}   0.1110   0.0636   0.1182  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.0467  -0.0106  -0.1176   0.0905   0.1105   1.0000
+
+{txt}
+{com}. 
+. // CO2 Per Capita
+. reg co2 gdp_per_cap gdp_per_cap_sq nx_gdp polity lndarea_per_cap ocean
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       990
+{txt}{hline 13}{c +}{hline 34}   F(6, 983)       = {res}    10.80
+{txt}       Model {c |} {res} 9.1943e+19         6  1.5324e+19   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1.3945e+21       983  1.4186e+18   {txt}R-squared       ={res}    0.0619
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0561
+{txt}       Total {c |} {res} 1.4864e+21       989  1.5030e+18   {txt}Root MSE        =   {res} 1.2e+09
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}            co2{col 17}{c |} Coefficient{col 29}  Std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}gdp_per_cap {c |}{col 17}{res}{space 2} 24237.44{col 29}{space 2} 5624.985{col 40}{space 1}    4.31{col 49}{space 3}0.000{col 57}{space 4} 13199.08{col 70}{space 3}  35275.8
+{txt}{space 1}gdp_per_cap_sq {c |}{col 17}{res}{space 2}-.1343856{col 29}{space 2} .0697808{col 40}{space 1}   -1.93{col 49}{space 3}0.054{col 57}{space 4} -.271322{col 70}{space 3} .0025508
+{txt}{space 9}nx_gdp {c |}{col 17}{res}{space 2}-1.12e+09{col 29}{space 2} 1.73e+08{col 40}{space 1}   -6.46{col 49}{space 3}0.000{col 57}{space 4}-1.46e+09{col 70}{space 3}-7.80e+08
+{txt}{space 9}polity {c |}{col 17}{res}{space 2} -6781535{col 29}{space 2}  3162609{col 40}{space 1}   -2.14{col 49}{space 3}0.032{col 57}{space 4}-1.30e+07{col 70}{space 3}-575294.2
+{txt}lndarea_per_cap {c |}{col 17}{res}{space 2}-9.99e+08{col 29}{space 2} 4.80e+08{col 40}{space 1}   -2.08{col 49}{space 3}0.037{col 57}{space 4}-1.94e+09{col 70}{space 3}-5.82e+07
+{txt}{space 10}ocean {c |}{col 17}{res}{space 2} 1.43e+08{col 29}{space 2} 9.72e+07{col 40}{space 1}    1.47{col 49}{space 3}0.142{col 57}{space 4}-4.80e+07{col 70}{space 3} 3.34e+08
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} 3.65e+08{col 29}{space 2} 8.37e+07{col 40}{space 1}    4.36{col 49}{space 3}0.000{col 57}{space 4} 2.01e+08{col 70}{space 3} 5.29e+08
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. correlate co2 gdp_per_cap gdp_per_cap_sq nx_gdp polity lndarea_per_cap ocean
+{txt}(obs=990)
+
+             {c |}      co2 gdp_pe~p gdp_pe~q   nx_gdp   polity lndare~p    ocean
+{hline 13}{c +}{hline 63}
+         co2 {c |}{res}   1.0000
+ {txt}gdp_per_cap {c |}{res}   0.0519   1.0000
+{txt}gdp_per_ca~q {c |}{res}   0.0267   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}  -0.1261   0.6769   0.6451   1.0000
+      {txt}polity {c |}{res}  -0.0513   0.1110   0.0636   0.1182   1.0000
+{txt}lndarea_pe~p {c |}{res}  -0.0392  -0.0103  -0.0433  -0.0277  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.0874   0.0467  -0.0106  -0.1176   0.1105   0.0905   1.0000
+
+{txt}
+{com}. rvfplot
+{res}{txt}
+{com}. 
+. reg co2_per_cap gdp_per_cap gdp_per_cap_sq nx_gdp polity lndarea_per_cap ocean
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       990
+{txt}{hline 13}{c +}{hline 34}   F(6, 983)       = {res}   249.99
+{txt}       Model {c |} {res} 15585.8905         6  2597.64842   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 10214.3864       983   10.391034   {txt}R-squared       ={res}    0.6041
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6017
+{txt}       Total {c |} {res} 25800.2769       989  26.0872365   {txt}Root MSE        =   {res} 3.2235
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    co2_per_cap{col 17}{c |} Coefficient{col 29}  Std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}gdp_per_cap {c |}{col 17}{res}{space 2} .0003382{col 29}{space 2} .0000152{col 40}{space 1}   22.22{col 49}{space 3}0.000{col 57}{space 4} .0003083{col 70}{space 3} .0003681
+{txt}{space 1}gdp_per_cap_sq {c |}{col 17}{res}{space 2}-2.14e-09{col 29}{space 2} 1.89e-10{col 40}{space 1}  -11.34{col 49}{space 3}0.000{col 57}{space 4}-2.51e-09{col 70}{space 3}-1.77e-09
+{txt}{space 9}nx_gdp {c |}{col 17}{res}{space 2}-1.415226{col 29}{space 2} .4687577{col 40}{space 1}   -3.02{col 49}{space 3}0.003{col 57}{space 4}-2.335107{col 70}{space 3}-.4953451
+{txt}{space 9}polity {c |}{col 17}{res}{space 2}-.0579711{col 29}{space 2} .0085594{col 40}{space 1}   -6.77{col 49}{space 3}0.000{col 57}{space 4}-.0747679{col 70}{space 3}-.0411743
+{txt}lndarea_per_cap {c |}{col 17}{res}{space 2} 15.13064{col 29}{space 2} 1.297941{col 40}{space 1}   11.66{col 49}{space 3}0.000{col 57}{space 4} 12.58358{col 70}{space 3} 17.67769
+{txt}{space 10}ocean {c |}{col 17}{res}{space 2} .3400339{col 29}{space 2} .2631341{col 40}{space 1}    1.29{col 49}{space 3}0.197{col 57}{space 4}-.1763353{col 70}{space 3} .8564032
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2}-.6486147{col 29}{space 2}  .226446{col 40}{space 1}   -2.86{col 49}{space 3}0.004{col 57}{space 4}-1.092988{col 70}{space 3}-.2042415
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. correlate co2_per_cap gdp_per_cap gdp_per_cap_sq nx_gdp polity lndarea_per_cap ocean
+{txt}(obs=990)
+
+             {c |} co2_pe~p gdp_pe~p gdp_pe~q   nx_gdp   polity lndare~p    ocean
+{hline 13}{c +}{hline 63}
+ co2_per_cap {c |}{res}   1.0000
+ {txt}gdp_per_cap {c |}{res}   0.6689   1.0000
+{txt}gdp_per_ca~q {c |}{res}   0.5401   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}   0.3846   0.6769   0.6451   1.0000
+      {txt}polity {c |}{res}  -0.0790   0.1110   0.0636   0.1182   1.0000
+{txt}lndarea_pe~p {c |}{res}   0.2832  -0.0103  -0.0433  -0.0277  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.1139   0.0467  -0.0106  -0.1176   0.1105   0.0905   1.0000
+
+{txt}
+{com}. rvfplot
+{res}{txt}
+{com}.  
+. // N2O
+. reg n2o gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       990
+{txt}{hline 13}{c +}{hline 34}   F(6, 983)       = {res}    10.13
+{txt}       Model {c |} {res} 2.7735e+17         6  4.6225e+16   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 4.4856e+18       983  4.5631e+15   {txt}R-squared       ={res}    0.0582
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0525
+{txt}       Total {c |} {res} 4.7629e+18       989  4.8159e+15   {txt}Root MSE        =   {res} 6.8e+07
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}            n2o{col 17}{c |} Coefficient{col 29}  Std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}gdp_per_cap {c |}{col 17}{res}{space 2}  570.958{col 29}{space 2} 319.0226{col 40}{space 1}    1.79{col 49}{space 3}0.074{col 57}{space 4}-55.08564{col 70}{space 3} 1197.002
+{txt}{space 1}gdp_per_cap_sq {c |}{col 17}{res}{space 2}-.0000997{col 29}{space 2} .0039576{col 40}{space 1}   -0.03{col 49}{space 3}0.980{col 57}{space 4}-.0078661{col 70}{space 3} .0076666
+{txt}{space 9}nx_gdp {c |}{col 17}{res}{space 2}-6.89e+07{col 29}{space 2}  9823153{col 40}{space 1}   -7.02{col 49}{space 3}0.000{col 57}{space 4}-8.82e+07{col 70}{space 3}-4.97e+07
+{txt}lndarea_per_cap {c |}{col 17}{res}{space 2}-2.77e+07{col 29}{space 2} 2.72e+07{col 40}{space 1}   -1.02{col 49}{space 3}0.308{col 57}{space 4}-8.11e+07{col 70}{space 3} 2.56e+07
+{txt}{space 9}polity {c |}{col 17}{res}{space 2}-75310.29{col 29}{space 2} 179368.2{col 40}{space 1}   -0.42{col 49}{space 3}0.675{col 57}{space 4}  -427299{col 70}{space 3} 276678.4
+{txt}{space 10}ocean {c |}{col 17}{res}{space 2}  8261706{col 29}{space 2}  5514164{col 40}{space 1}    1.50{col 49}{space 3}0.134{col 57}{space 4} -2559180{col 70}{space 3} 1.91e+07
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} 3.99e+07{col 29}{space 2}  4745338{col 40}{space 1}    8.42{col 49}{space 3}0.000{col 57}{space 4} 3.06e+07{col 70}{space 3} 4.92e+07
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. correlate n2o gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+{txt}(obs=990)
+
+             {c |}      n2o gdp_pe~p gdp_pe~q   nx_gdp lndare~p   polity    ocean
+{hline 13}{c +}{hline 63}
+         n2o {c |}{res}   1.0000
+ {txt}gdp_per_cap {c |}{res}  -0.0362   1.0000
+{txt}gdp_per_ca~q {c |}{res}  -0.0385   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}  -0.1956   0.6769   0.6451   1.0000
+{txt}lndarea_pe~p {c |}{res}  -0.0190  -0.0103  -0.0433  -0.0277   1.0000
+      {txt}polity {c |}{res}  -0.0198   0.1110   0.0636   0.1182  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.0875   0.0467  -0.0106  -0.1176   0.0905   0.1105   1.0000
+
+{txt}
+{com}. rvfplot
+{res}{txt}
+{com}. 
+. reg n2o_per_cap gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       990
+{txt}{hline 13}{c +}{hline 34}   F(6, 983)       = {res}   212.65
+{txt}       Model {c |} {res}  247.71821         6  41.2863683   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 190.847458       983  .194147973   {txt}R-squared       ={res}    0.5648
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5622
+{txt}       Total {c |} {res} 438.565668       989  .443443547   {txt}Root MSE        =   {res} .44062
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    n2o_per_cap{col 17}{c |} Coefficient{col 29}  Std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}gdp_per_cap {c |}{col 17}{res}{space 2}-5.36e-06{col 29}{space 2} 2.08e-06{col 40}{space 1}   -2.57{col 49}{space 3}0.010{col 57}{space 4}-9.44e-06{col 70}{space 3}-1.27e-06
+{txt}{space 1}gdp_per_cap_sq {c |}{col 17}{res}{space 2} 1.44e-10{col 29}{space 2} 2.58e-11{col 40}{space 1}    5.58{col 49}{space 3}0.000{col 57}{space 4} 9.35e-11{col 70}{space 3} 1.95e-10
+{txt}{space 9}nx_gdp {c |}{col 17}{res}{space 2} .0890097{col 29}{space 2} .0640745{col 40}{space 1}    1.39{col 49}{space 3}0.165{col 57}{space 4}-.0367289{col 70}{space 3} .2147483
+{txt}lndarea_per_cap {c |}{col 17}{res}{space 2} 5.990128{col 29}{space 2} .1774157{col 40}{space 1}   33.76{col 49}{space 3}0.000{col 57}{space 4} 5.641971{col 70}{space 3} 6.338285
+{txt}{space 9}polity {c |}{col 17}{res}{space 2} .0143977{col 29}{space 2}   .00117{col 40}{space 1}   12.31{col 49}{space 3}0.000{col 57}{space 4} .0121018{col 70}{space 3} .0166937
+{txt}{space 10}ocean {c |}{col 17}{res}{space 2}-.1094495{col 29}{space 2} .0359678{col 40}{space 1}   -3.04{col 49}{space 3}0.002{col 57}{space 4}-.1800321{col 70}{space 3} -.038867
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} .2671966{col 29}{space 2} .0309529{col 40}{space 1}    8.63{col 49}{space 3}0.000{col 57}{space 4} .2064552{col 70}{space 3}  .327938
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. correlate n2o_per_cap gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+{txt}(obs=990)
+
+             {c |} n2o_pe~p gdp_pe~p gdp_pe~q   nx_gdp lndare~p   polity    ocean
+{hline 13}{c +}{hline 63}
+ n2o_per_cap {c |}{res}   1.0000
+ {txt}gdp_per_cap {c |}{res}   0.2023   1.0000
+{txt}gdp_per_ca~q {c |}{res}   0.2002   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}   0.1692   0.6769   0.6451   1.0000
+{txt}lndarea_pe~p {c |}{res}   0.6637  -0.0103  -0.0433  -0.0277   1.0000
+      {txt}polity {c |}{res}   0.1482   0.1110   0.0636   0.1182  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.0127   0.0467  -0.0106  -0.1176   0.0905   0.1105   1.0000
+
+{txt}
+{com}. rvfplot
+{res}{txt}
+{com}. 
+. // SO2
+. reg so2 gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       990
+{txt}{hline 13}{c +}{hline 34}   F(6, 983)       = {res}    30.26
+{txt}       Model {c |} {res} 1.2850e+19         6  2.1417e+18   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 6.9583e+19       983  7.0786e+16   {txt}R-squared       ={res}    0.1559
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1507
+{txt}       Total {c |} {res} 8.2433e+19       989  8.3350e+16   {txt}Root MSE        =   {res} 2.7e+08
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}            so2{col 17}{c |} Coefficient{col 29}  Std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}gdp_per_cap {c |}{col 17}{res}{space 2} 8701.128{col 29}{space 2} 1256.503{col 40}{space 1}    6.92{col 49}{space 3}0.000{col 57}{space 4} 6235.393{col 70}{space 3} 11166.86
+{txt}{space 1}gdp_per_cap_sq {c |}{col 17}{res}{space 2}-.0360505{col 29}{space 2} .0155875{col 40}{space 1}   -2.31{col 49}{space 3}0.021{col 57}{space 4}-.0666392{col 70}{space 3}-.0054618
+{txt}{space 9}nx_gdp {c |}{col 17}{res}{space 2}-3.81e+08{col 29}{space 2} 3.87e+07{col 40}{space 1}   -9.84{col 49}{space 3}0.000{col 57}{space 4}-4.57e+08{col 70}{space 3}-3.05e+08
+{txt}lndarea_per_cap {c |}{col 17}{res}{space 2}-2.12e+08{col 29}{space 2} 1.07e+08{col 40}{space 1}   -1.98{col 49}{space 3}0.048{col 57}{space 4}-4.22e+08{col 70}{space 3} -1974478
+{txt}{space 9}polity {c |}{col 17}{res}{space 2}-785214.7{col 29}{space 2} 706459.9{col 40}{space 1}   -1.11{col 49}{space 3}0.267{col 57}{space 4} -2171558{col 70}{space 3} 601128.1
+{txt}{space 10}ocean {c |}{col 17}{res}{space 2} 8.91e+07{col 29}{space 2} 2.17e+07{col 40}{space 1}    4.10{col 49}{space 3}0.000{col 57}{space 4} 4.65e+07{col 70}{space 3} 1.32e+08
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} 7.06e+07{col 29}{space 2} 1.87e+07{col 40}{space 1}    3.78{col 49}{space 3}0.000{col 57}{space 4} 3.39e+07{col 70}{space 3} 1.07e+08
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. correlate so2 gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+{txt}(obs=990)
+
+             {c |}      so2 gdp_pe~p gdp_pe~q   nx_gdp lndare~p   polity    ocean
+{hline 13}{c +}{hline 63}
+         so2 {c |}{res}   1.0000
+ {txt}gdp_per_cap {c |}{res}   0.1668   1.0000
+{txt}gdp_per_ca~q {c |}{res}   0.1240   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}  -0.1259   0.6769   0.6451   1.0000
+{txt}lndarea_pe~p {c |}{res}  -0.0292  -0.0103  -0.0433  -0.0277   1.0000
+      {txt}polity {c |}{res}  -0.0011   0.1110   0.0636   0.1182  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.1947   0.0467  -0.0106  -0.1176   0.0905   0.1105   1.0000
+
+{txt}
+{com}. rvfplot
+{res}{txt}
+{com}. 
+. reg so2_per_cap gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       990
+{txt}{hline 13}{c +}{hline 34}   F(6, 983)       = {res}   216.14
+{txt}       Model {c |} {res} 2879.14626         6  479.857709   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2182.40189       983  2.22014434   {txt}R-squared       ={res}    0.5688
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5662
+{txt}       Total {c |} {res} 5061.54815       989  5.11784444   {txt}Root MSE        =   {res}   1.49
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    so2_per_cap{col 17}{c |} Coefficient{col 29}  Std. err.{col 41}      t{col 49}   P>|t|{col 57}     [95% con{col 70}f. interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}gdp_per_cap {c |}{col 17}{res}{space 2} .0001522{col 29}{space 2} 7.04e-06{col 40}{space 1}   21.63{col 49}{space 3}0.000{col 57}{space 4} .0001384{col 70}{space 3}  .000166
+{txt}{space 1}gdp_per_cap_sq {c |}{col 17}{res}{space 2}-8.65e-10{col 29}{space 2} 8.73e-11{col 40}{space 1}   -9.90{col 49}{space 3}0.000{col 57}{space 4}-1.04e-09{col 70}{space 3}-6.93e-10
+{txt}{space 9}nx_gdp {c |}{col 17}{res}{space 2}-1.405109{col 29}{space 2} .2166754{col 40}{space 1}   -6.48{col 49}{space 3}0.000{col 57}{space 4}-1.830308{col 70}{space 3}-.9799093
+{txt}lndarea_per_cap {c |}{col 17}{res}{space 2} 3.004978{col 29}{space 2} .5999515{col 40}{space 1}    5.01{col 49}{space 3}0.000{col 57}{space 4} 1.827645{col 70}{space 3} 4.182311
+{txt}{space 9}polity {c |}{col 17}{res}{space 2}-.0337684{col 29}{space 2} .0039564{col 40}{space 1}   -8.54{col 49}{space 3}0.000{col 57}{space 4}-.0415324{col 70}{space 3}-.0260044
+{txt}{space 10}ocean {c |}{col 17}{res}{space 2} .0312367{col 29}{space 2} .1216294{col 40}{space 1}    0.26{col 49}{space 3}0.797{col 57}{space 4}-.2074463{col 70}{space 3} .2699198
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} -.083435{col 29}{space 2} .1046709{col 40}{space 1}   -0.80{col 49}{space 3}0.426{col 57}{space 4}-.2888391{col 70}{space 3}  .121969
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. correlate so2_per_cap gdp_per_cap gdp_per_cap_sq nx_gdp lndarea_per_cap polity ocean
+{txt}(obs=990)
+
+             {c |} so2_pe~p gdp_pe~p gdp_pe~q   nx_gdp lndare~p   polity    ocean
+{hline 13}{c +}{hline 63}
+ so2_per_cap {c |}{res}   1.0000
+ {txt}gdp_per_cap {c |}{res}   0.6706   1.0000
+{txt}gdp_per_ca~q {c |}{res}   0.5552   0.9366   1.0000
+      {txt}nx_gdp {c |}{res}   0.3337   0.6769   0.6451   1.0000
+{txt}lndarea_pe~p {c |}{res}   0.1564  -0.0103  -0.0433  -0.0277   1.0000
+      {txt}polity {c |}{res}  -0.1100   0.1110   0.0636   0.1182  -0.1670   1.0000
+       {txt}ocean {c |}{res}   0.0882   0.0467  -0.0106  -0.1176   0.0905   0.1105   1.0000
+
+{txt}
+{com}. rvfplot
+{res}{txt}
+{com}. 
+. // Ending analysis
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\cjche\OneDrive\Capstone Project\results\cjcheatham_log1.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 1 May 2023, 12:02:51
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

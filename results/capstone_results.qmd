@@ -1,0 +1,21 @@
+---
+title: "capstone_results"
+author: "Cody Cheatham"
+format: pdf
+editor: visual
+---
+
+```{r}
+library(gtable)
+library(stargazer)
+
+#load data set
+require(foreign)
+data <- read.csv("C:/Users/cjche/OneDrive/Capstone Project/data/working data set/cjcheatham_working_data.csv")
+
+#summary and regression
+summary(data)
+mod1 <- lm(co2~)
+```
+
+
